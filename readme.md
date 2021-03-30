@@ -1,5 +1,12 @@
 # Redis Enterprise - Terraforming on GCP
 
+## About
+
+![Read more about Redis Enterprise](https://redislabs.com/wp-content/themes/wpx/assets/images/logo-redis.svg)
+Docs https://docs.redislabs.com/latest/rs/
+Provided by Redis Labs - https://redislabs.com/redis-enterprise-software/overview/
+
+
 ## Assumption
 
 - gcloud ssh working with `~/.ssh/google_compute_engine` private key
