@@ -43,6 +43,7 @@ Apply complete! Resources: 12 added, 0 changed, 0 destroyed.
 
 Outputs:
 
+admin = "admin@redis.io"
 ips = [
   "35.205.232.197",
   "35.233.84.153",
