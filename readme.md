@@ -26,17 +26,36 @@ will setup GCP, VPC, networks/firewall, DNS for Redis Enterprise
 - node2.. will be joining the cluster
 - output will show Redis Enterprise cluster ui url and other info
 - an admin password will be auto generated
-
 The nodes and cluster are created using external addr and DNS.
+
+Example of a 2 nodes setup
+```
+Apply complete! Resources: 12 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+ips = [
+  "35.205.232.197",
+  "35.233.84.153",
+]
+password = "xxxxx"
+rs_cluster_dns = "cluster.avasseur.demo.redislabs.com"
+rs_ui = "https://35.205.232.197:8443"
+rs_ui_dns = "https://node1.avasseur.demo.redislabs.com:8443"
+```
 
 ```
 terraform destroy
 ```
 
-
 ## Memtier
 
-See memtier.sh for a basic example
+see `memtier.sh` for a very basic example
+
+## Todos
+
+Configure for multi AZ and rack awareness
+
 
 
 
