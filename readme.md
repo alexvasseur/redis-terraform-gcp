@@ -57,6 +57,14 @@ rs_ui_dns = "https://node1.avasseur.demo.redislabs.com:8443"
 terraform destroy
 ```
 
+## Command line
+
+Use `gcloud` with your machine node name that looks like:
+```
+gcloud compute ssh avasseur-dev-1
+```
+You can explore logs in `/home/ubuntu` and in `/var/log/syslog` for the startup-script.
+
 ## Memtier
 
 see `memtier.sh` for a very basic example
@@ -68,7 +76,8 @@ see `memtier.sh` for a very basic example
 
 ## Todos
 
-Configure for multi AZ and rack awareness
+- Configure for multi AZ and rack awareness
+- What really happens on reboot with the startup-script / and/or add doc for cluster shutdown/restart
 
 
 
