@@ -2,9 +2,11 @@
 
 ## About
 
-![Read more about Redis Enterprise](https://redislabs.com/wp-content/themes/wpx/assets/images/logo-redis.svg)
-Docs https://docs.redislabs.com/latest/rs/
-Provided by Redis Labs - https://redislabs.com/redis-enterprise-software/overview/
+<img width=150
+    src="https://redislabs.com/wp-content/themes/wpx/assets/images/logo-redis.svg"
+    alt="Read more about Redis Enterprise" />
+- Docs https://docs.redislabs.com/latest/rs/
+- Provided by Redis Labs - https://redislabs.com/redis-enterprise-software/overview/
 
 
 ## Assumption
@@ -58,6 +60,11 @@ terraform destroy
 ## Memtier
 
 see `memtier.sh` for a very basic example
+
+## Redis Enterprise
+
+![Nodes, shards and clusters and Redis databases](https://redislabs.com/wp-content/uploads/2019/06/blog-volkov-20190625-1-v5.png)
+
 
 ## Todos
 
