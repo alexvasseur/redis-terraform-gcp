@@ -16,4 +16,4 @@ memtier_benchmark --ratio=1:4 --test-time=3600 \
  --pipeline=30 --key-pattern=S:S \
  --key-maximum=2000 \
  --hide-histogram -x 1000 \
- -s redis-16798.cluster.avasseur.demo.redislabs.com -p 16798
+ -s redis-18665.cluster.avasseur.demo.redislabs.com -p 18665

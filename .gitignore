@@ -1,3 +1,5 @@
-central-beach-*.json
+*.json
 terraform.tfstate*
 .terraform*
+my-*.tf
+*.tfvars

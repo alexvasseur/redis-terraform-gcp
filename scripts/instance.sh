@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ################
 # PREREQ 
 
@@ -54,7 +56,6 @@ echo "$(date) - INSTALL done" >> /home/ubuntu/install.log
 ################
 # NODE
 
-sudo su - ubuntu
 node_external_addr=`curl ifconfig.me/ip`
 echo "Node ${node_id} : $node_external_addr" >> /home/ubuntu/install.log
 if [ ${node_id} -eq 1 ]; then
@@ -66,4 +67,17 @@ else
     /opt/redislabs/bin/rladmin cluster join username ${RS_admin} password '${RS_password}' nodes ${node_1_ip} external_addr $node_external_addr 2>&1 >> /home/ubuntu/install.log
 fi
 echo "$(date) - DONE creating cluster node" >> /home/ubuntu/install.log
-exit
+
+################
+# NODE external_addr - it runs at each reboot to update it
+echo "${node_id}" > /home/ubuntu/node_index.terraform
+cat <<EOF > /home/ubuntu/node_externaladdr.sh
+#!/bin/bash
+node_external_addr=\$(curl -s ifconfig.me/ip)
+/opt/redislabs/bin/rladmin node ${node_id} external_addr set \$node_external_addr
+EOF
+chown ubuntu /home/ubuntu/node_externaladdr.sh
+chmod u+x /home/ubuntu/node_externaladdr.sh
+/home/ubuntu/node_externaladdr.sh
+
+echo "$(date) - DONE updating RS external_addr" >> /home/ubuntu/install.log

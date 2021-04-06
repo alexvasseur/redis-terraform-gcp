@@ -14,12 +14,14 @@ variable "env" {
 // !! PLEASE CHANGE
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 variable "yourname" {
-  #default = "avasseur"
+  # No default
+  # Use CLI or interactive input. It is best to setup your own terraforms.tfvars
 }
 variable "RS_admin" {
   default = "admin@redis.io"
 }
 variable "clustersize" {
+  # You should use 3 for some more realistic installation
   default = "2"
 }
 variable "region_name" {

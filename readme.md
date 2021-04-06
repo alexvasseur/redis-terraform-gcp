@@ -19,7 +19,11 @@
 ## Setup
 
 - `terraform init`
-- see `variable.tf`
+- (optional) use a `terraform.tfvars` to override variable like this one that has no default:
+```
+yourname="testingthis"
+```
+- review `variable.tf`
     - configure number of nodes and admin email
     - review/change as needed
     - configure the name of the json credentials file if needed
@@ -49,20 +53,30 @@ ips = [
   "35.233.84.153",
 ]
 password = "xxxxx"
-rs_cluster_dns = "cluster.avasseur.demo.redislabs.com"
+rs_cluster_dns = "cluster.<yourname>.demo.redislabs.com"
 rs_ui = "https://35.205.232.197:8443"
-rs_ui_dns = "https://node1.avasseur.demo.redislabs.com:8443"
+rs_ui_dns = "https://node1.<yourname>.demo.redislabs.com:8443"
 ```
 
 ```
 terraform destroy
 ```
 
+## Stoping & restarting nodes
+
+If you stop the VM and need to restart them:
+- you should restart the VM with GCP (Terraform will not do that for you)
+- the startup-script will re-run, ignore RS as it is already installed, but update RS node external_addr if the IP changed
+Then:
+- use `terraform plan` and ``terraform apply` as you external IP addr may have changed. This will update them in the DNS (this may take time for DNS to propagate, ~5min).
+- in the meantime you can connect to node1 with the external_addr on https port 8443
+
+
 ## Command line
 
 Use `gcloud` with your machine node name that looks like:
 ```
-gcloud compute ssh avasseur-dev-1
+gcloud compute ssh <yourname>-dev-1
 ```
 You can explore logs in `/home/ubuntu` and in `/var/log/syslog` for the startup-script.
 
@@ -80,7 +94,15 @@ see `memtier.sh` for a very basic example
 - Configure for multi AZ and rack awareness
 - What really happens on reboot with the startup-script / and/or add doc for cluster shutdown/restart
 
-
+```
+#!/bin/sh
+crontab -l | grep '/foo/bar/scriptname' 1>/dev/null 2>&1
+(( $? == 0 )) && exit
+crontab -l >/tmp/crontab.tmp
+echo '15 04 * * * /foo/bar/scriptname' >>/tmp/crontab.tmp
+crontab /tmp/crontab.tmp
+rm /tmp/crontab.tmp
+```
 
 
 # Other articles
