@@ -1,28 +1,37 @@
-// mandatory edits *************************************
-variable "project" {
-  default = "central-beach-194106"
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !! PLEASE CHANGE in a terraform.tfvars
+// yourname="...."
+// credentials="GCP IAM service account key file.json"
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+variable "yourname" {
+  # No default
+  # Use CLI or interactive input. It is best to setup your own terraform.tfvars
 }
 variable "credentials" {
   default = "central-beach-194106-fda731676157.json"
+}
+// other optional edits *************************************
+variable "clustersize" {
+  # You should use 3 for some more realistic installation
+  default = "2"
+}
+
+
+
+
+// other possible edits *************************************
+variable "RS_release" {
+  default="https://s3.amazonaws.com/redis-enterprise-software-downloads/6.0.12/redislabs-6.0.12-58-bionic-amd64.tar"  
+}
+variable "project" {
+  default = "central-beach-194106"
 }
 // machine name will be "<yourname>-<env>-node1"
 variable "env" {
   default = "dev"
 }
-// will be used as GCP naming prefix for machines, DNS zones, etc.
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !! PLEASE CHANGE
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-variable "yourname" {
-  # No default
-  # Use CLI or interactive input. It is best to setup your own terraforms.tfvars
-}
 variable "RS_admin" {
   default = "admin@redis.io"
-}
-variable "clustersize" {
-  # You should use 3 for some more realistic installation
-  default = "2"
 }
 variable "region_name" {
   default = "europe-west1"

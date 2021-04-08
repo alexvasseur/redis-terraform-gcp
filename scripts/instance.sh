@@ -10,16 +10,10 @@ apt-get -y update
 apt-get -y install vim
 apt-get -y install iputils-ping
 
-#apt-get -y install nginx
-#export HOSTNAME=$(hostname | tr -d '\n')
-#export PRIVATE_IP=$(curl -sf -H 'Metadata-Flavor:Google' http://metadata/computeMetadata/v1/instance/network-interfaces/0/ip | tr -d '\n')
-#echo "Welcome to $HOSTNAME - $PRIVATE_IP" > /usr/share/nginx/html/index.html
-#service nginx start
-
 apt-get install -y netcat
 apt-get install -y dnsutils
 export DEBIAN_FRONTEND=noninteractive
-export TZ="Europe/Paris"
+export TZ="UTC"
 apt-get install -y tzdata
 ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime
 dpkg-reconfigure --frontend noninteractive tzdata
@@ -42,7 +36,7 @@ echo "$(date) - PREPARE done" >> /home/ubuntu/install.log
 echo "$(date) - INSTALLING Redis Enterprise" >> /home/ubuntu/install.log
 
 mkdir /home/ubuntu/install
-wget "https://s3.amazonaws.com/redis-enterprise-software-downloads/6.0.12/redislabs-6.0.12-58-bionic-amd64.tar" -P /home/ubuntu/install
+wget "${RS_release}" -P /home/ubuntu/install
 tar xvf /home/ubuntu/install/redislabs*.tar -C /home/ubuntu/install
 
 echo "$(date) - INSTALLING Redis Enterprise - silent installation" >> /home/ubuntu/install.log

@@ -17,6 +17,7 @@ resource "google_compute_instance" "node1" {
       cluster_dns = "cluster.${var.yourname}.${var.dns_zone_dns_name}",
       node_id  = 1
       node_1_ip   = ""
+      RS_release = var.RS_release
       RS_admin = var.RS_admin
       RS_password = random_password.password.result
     })
@@ -50,6 +51,7 @@ resource "google_compute_instance" "nodeX" {
       cluster_dns = "cluster.${var.yourname}.${var.dns_zone_dns_name}",
       node_id  = count.index+1+1
       node_1_ip = google_compute_instance.node1.network_interface.0.network_ip
+      RS_release = var.RS_release
       RS_admin = var.RS_admin
       RS_password = random_password.password.result
     })

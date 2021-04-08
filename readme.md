@@ -19,11 +19,12 @@
 ## Setup
 
 - `terraform init`
-- (optional) use a `terraform.tfvars` to override variable like this one that has no default:
+- (optional) use a `terraform.tfvars` to override variable like those two important one or those that have no default:
 ```
 yourname="testingthis"
+credentials="GCP IAM key file.json"
 ```
-- review `variable.tf`
+- review `variable.tf` to learn what you can override in your `terraform.tfvars`
     - configure number of nodes and admin email
     - review/change as needed
     - configure the name of the json credentials file if needed
@@ -55,7 +56,7 @@ ips = [
 password = "xxxxx"
 rs_cluster_dns = "cluster.<yourname>.demo.redislabs.com"
 rs_ui = "https://35.205.232.197:8443"
-rs_ui_dns = "https://node1.<yourname>.demo.redislabs.com:8443"
+rs_ui_dns = "https://cluster.<yourname>.demo.redislabs.com:8443"
 ```
 
 ```
@@ -68,7 +69,7 @@ If you stop the VM and need to restart them:
 - you should restart the VM with GCP (Terraform will not do that for you)
 - the startup-script will re-run, ignore RS as it is already installed, but update RS node external_addr if the IP changed
 Then:
-- use `terraform plan` and ``terraform apply` as you external IP addr may have changed. This will update them in the DNS (this may take time for DNS to propagate, ~5min).
+- you must then use `terraform plan` and ``terraform apply` as you external IP addr may have changed. This will update them in the DNS (this may take time for DNS to propagate, ~5min).
 - in the meantime you can connect to node1 with the external_addr on https port 8443
 
 
@@ -88,21 +89,13 @@ see `memtier.sh` for a very basic example
 
 ![Nodes, shards and clusters and Redis databases](https://redislabs.com/wp-content/uploads/2019/06/blog-volkov-20190625-1-v5.png)
 
+## Known Issues
+
+- if you stopped the VM in GCP, Terraform will assume their external IP are void and will clean up the DNS but will not restart the VM
 
 ## Todos
 
 - Configure for multi AZ and rack awareness
-- What really happens on reboot with the startup-script / and/or add doc for cluster shutdown/restart
-
-```
-#!/bin/sh
-crontab -l | grep '/foo/bar/scriptname' 1>/dev/null 2>&1
-(( $? == 0 )) && exit
-crontab -l >/tmp/crontab.tmp
-echo '15 04 * * * /foo/bar/scriptname' >>/tmp/crontab.tmp
-crontab /tmp/crontab.tmp
-rm /tmp/crontab.tmp
-```
 
 
 # Other articles

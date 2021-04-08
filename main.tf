@@ -4,7 +4,8 @@ provider "google" {
 }
 ######################################################################
 output "rs_ui_dns" {
-	value = "https://node1.${var.yourname}.${var.dns_zone_dns_name}:8443"
+	value = ["https://node1.${var.yourname}.${var.dns_zone_dns_name}:8443",
+          "https://cluster.${var.yourname}.${var.dns_zone_dns_name}:8443"]
 }
 output "rs_ui" {
 	value = "https://${google_compute_instance.node1.network_interface.0.access_config.0.nat_ip}:8443"
