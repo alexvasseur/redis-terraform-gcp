@@ -4,7 +4,7 @@ resource "google_compute_network" "vpc" {
   routing_mode            = "GLOBAL"
 }
 resource "google_compute_firewall" "allow-internal" {
-  name    = "${var.yourname}-fw-allow-internal"
+  name    = "${var.yourname}-${var.env}-fw-allow-internal"
   network = google_compute_network.vpc.name
   allow {
     protocol = "icmp"
@@ -23,7 +23,7 @@ resource "google_compute_firewall" "allow-internal" {
   ]
 }
 resource "google_compute_firewall" "allow-http" {
-  name    = "${var.yourname}-fw-allow-http"
+  name    = "${var.yourname}-${var.env}-fw-allow-http"
   network = google_compute_network.vpc.name
 allow {
     protocol = "tcp"
@@ -37,7 +37,7 @@ allow {
   target_tags = ["http"] 
 }
 resource "google_compute_firewall" "allow-bastion" {
-  name    = "${var.yourname}-fw-allow-bastion"
+  name    = "${var.yourname}-${var.env}-fw-allow-bastion"
   network = google_compute_network.vpc.name
   allow {
     protocol = "tcp"
