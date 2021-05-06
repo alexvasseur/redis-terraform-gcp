@@ -48,15 +48,22 @@ Apply complete! Resources: 12 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-admin = "admin@redis.io"
-ips = [
-  "35.205.232.197",
-  "35.233.84.153",
+admin_password = "..."
+admin_username = "admin@redis.io"
+nodes_dns = [
+  "node1.<yourname>.demo.redislabs.com.",
+  "node2.<yourname>.demo.redislabs.com.",
 ]
-password = "xxxxx"
+nodes_ip = [
+  "35.233.2.255",
+  "34.76.46.161",
+]
 rs_cluster_dns = "cluster.<yourname>.demo.redislabs.com"
-rs_ui = "https://35.205.232.197:8443"
-rs_ui_dns = "https://cluster.<yourname>.demo.redislabs.com:8443"
+rs_ui_dns = [
+  "https://node1.<yourname>.demo.redislabs.com:8443",
+  "https://cluster.<yourname>.demo.redislabs.com:8443",
+]
+rs_ui_ip = "https://35.233.2.255:8443"
 ```
 
 ```
@@ -73,7 +80,7 @@ Then:
 - in the meantime you can connect to node1 with the external_addr on https port 8443
 
 
-## Command line
+## SSH access to the RS nodes (VM instance) with GCP command line
 
 Use `gcloud` with your machine node name that looks like:
 ```
@@ -81,11 +88,29 @@ gcloud compute ssh <yourname>-dev-1
 ```
 You can explore logs in `/home/ubuntu` and in `/var/log/syslog` for the startup-script.
 
-## Memtier
+## Troubleshooting
+
+If you ssh into a node you can find installation logs:
+```
+sudo su - ubuntu
+tail install.log
+tail install_RS.log
+```
+and also use Redis Enterprise admin tools
+```
+rladmin
+>status
+CLUSTER NODES:
+NODE:ID    ROLE     ADDRESS      EXTERNAL_ADDRESS       HOSTNAME           SHARDS   CORES          FREE_RAM           PROVISIONAL_RAM       VERSION      STATUS
+*node:1    master   10.26.2.2    35.233.2.255           avatest-dev-1      0/100    2              6.27GB/7.77GB      4.87GB/6.38GB         6.0.12-58    OK
+node:2     slave    10.26.2.3    34.76.46.161           avatest-dev-2      0/100    2              6.46GB/7.77GB      5.06GB/6.38GB         6.0.12-58    OK
+```
+
+## Running Memtier
 
 see `memtier.sh` for a very basic example
 
-## Redis Enterprise
+## Redis Enterprise - Architecture
 
 ![Nodes, shards and clusters and Redis databases](https://redislabs.com/wp-content/uploads/2019/06/blog-volkov-20190625-1-v5.png)
 
