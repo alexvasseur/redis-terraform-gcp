@@ -21,7 +21,7 @@ variable "clustersize" {
 
 // other possible edits *************************************
 variable "RS_release" {
-  default="https://s3.amazonaws.com/redis-enterprise-software-downloads/6.0.20/redislabs-6.0.20-69-bionic-amd64.tar"  
+  default="https://s3.amazonaws.com/redis-enterprise-software-downloads/6.2.4/redislabs-6.2.4-54-bionic-amd64.tar"
 }
 variable "project" {
   default = "central-beach-194106"
