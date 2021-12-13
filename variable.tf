@@ -32,8 +32,6 @@ variable "machine_type" {
   // which leaves about 1.4GB for Redis DB
   // machine_type = "custom-2-4096" // https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance
 }
-
-
 // machine name will be "<yourname>-<env>-node1"
 variable "env" {
   default = "dev"
