@@ -21,11 +21,19 @@ variable "clustersize" {
 
 // other possible edits *************************************
 variable "RS_release" {
-  default="https://s3.amazonaws.com/redis-enterprise-software-downloads/6.2.4/redislabs-6.2.4-54-bionic-amd64.tar"
+  default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/6.2.8/redislabs-6.2.8-50-bionic-amd64.tar"
 }
 variable "project" {
   default = "central-beach-194106"
 }
+variable "machine_type" {
+  default = "e2-standard-2" // https://gcpinstances.info/?cost_duration=monthly
+  // example with minimal 2vcpu 4GB RAM
+  // which leaves about 1.4GB for Redis DB
+  // machine_type = "custom-2-4096" // https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance
+}
+
+
 // machine name will be "<yourname>-<env>-node1"
 variable "env" {
   default = "dev"

@@ -1,9 +1,6 @@
 resource "google_compute_instance" "node1" {
   name         = "${var.yourname}-${var.env}-1"
-  machine_type = "e2-standard-2" // https://gcpinstances.info/?cost_duration=monthly
-  // example with minimal 2vcpu 4GB RAM
-  // which leaves about 1.4GB for Redis DB
-  // machine_type = "custom-2-4096" // https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance
+  machine_type = var.machine_type
   zone         = "${var.region_name}-b" //TODO
   tags         = ["ssh", "http"]
   boot_disk {
@@ -37,7 +34,7 @@ resource "google_compute_instance" "nodeX" {
   count = var.clustersize - 1
 
   name         = "${var.yourname}-${var.env}-${count.index + 1 + 1}" #+1+1 as we have node1 above
-  machine_type = "e2-standard-2"
+  machine_type = var.machine_type
   zone         = "${var.region_name}-b" //TODO
   tags         = ["ssh", "http"]
   boot_disk {
