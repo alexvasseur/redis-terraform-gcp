@@ -8,6 +8,7 @@ echo "$(date) - PREPARING machine node" >> /home/ubuntu/install.log
 
 apt-get -y update
 apt-get -y install vim
+apt-get -y install iotop
 apt-get -y install iputils-ping
 
 apt-get install -y netcat

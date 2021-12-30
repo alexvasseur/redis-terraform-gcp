@@ -6,7 +6,7 @@ resource "google_compute_instance" "node1" {
   boot_disk {
     initialize_params {
       image = "ubuntu-minimal-1804-lts"
-      size = 120 //GB
+      size = 30 //GB
     }
   }
   labels = {
@@ -41,7 +41,7 @@ resource "google_compute_instance" "nodeX" {
   boot_disk {
     initialize_params {
       image = "ubuntu-minimal-1804-lts"
-      size = 120 // GB
+      size = 30 // GB
     }
   }
   labels = {

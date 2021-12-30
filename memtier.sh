@@ -9,11 +9,14 @@ then
         exit 0
 fi
 
+# On Redis Enterprise you will find it at
+# /opt/redislabs/bin/memtier_benchmark
+
 memtier_benchmark --ratio=1:4 --test-time=3600 \
  -a $1 \
  -d 150 \
- -t 8 -c 2 \
+ -t 12 -c 10 \
  --pipeline=30 --key-pattern=S:S \
  --key-maximum=2000 \
  --hide-histogram -x 1000 \
- -s redis-18665.cluster.avasseur.demo.redislabs.com -p 18665
+ -s redis-16489.cluster.avasseur.demo.redislabs.com -p 16489
