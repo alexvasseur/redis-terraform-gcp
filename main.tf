@@ -24,6 +24,7 @@ output "admin_username" {
 }
 output "admin_password" {
   value = random_password.password.result
+  sensitive = true
 }
 output "how_to_ssh" {
   value = "gcloud compute ssh ${google_compute_instance.node1.name}"

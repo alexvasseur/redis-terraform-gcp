@@ -16,6 +16,8 @@
 - GCP IAM service account exported `json` in current folder
 - terraform
 
+Last used with: Terraform v1.1.7
+
 ## Setup
 
 - `terraform init`
