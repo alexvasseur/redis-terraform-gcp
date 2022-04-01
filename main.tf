@@ -29,3 +29,6 @@ output "admin_password" {
 output "how_to_ssh" {
   value = "gcloud compute ssh ${google_compute_instance.node1.name}"
 }
+output "how_to_ssh_to_app" {
+  value = "gcloud compute ssh ${google_compute_instance.app.name}"
+}
