@@ -35,6 +35,24 @@ credentials="GCP IAM key file.json"
     - review/change as needed
     - configure the name of the json credentials file if needed
 
+Here is an example file
+```
+yourname="..."
+clustersize=1
+machine_type = "e2-highmem-8" # 8 vCPU, 64 GB
+# defaults to e2-standard-2 (2 vCPU, 8 GB)
+
+
+app_enabled = false
+
+
+gke_clustersize = 0
+gke_machine_type = "e2-standard-4"
+# to delete use the cli as terraform destroy seems unreliable
+# gcloud container node-pools delete redis-node-pool --cluster avasseur-dev-gke
+```
+
+
 ## Usage
 
 ```
