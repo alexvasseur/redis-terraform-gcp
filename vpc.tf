@@ -35,6 +35,7 @@ allow {
     ports    = ["53", "5353"]
   }
   target_tags = ["http"] 
+  source_ranges = [ "0.0.0.0/0" ]
 }
 resource "google_compute_firewall" "allow-bastion" {
   name    = "${var.yourname}-${var.env}-fw-allow-bastion"
@@ -44,4 +45,6 @@ resource "google_compute_firewall" "allow-bastion" {
     ports    = ["22"]
   }
   target_tags = ["ssh"]
-  }
+  source_ranges = [ "0.0.0.0/0" ]
+
+}

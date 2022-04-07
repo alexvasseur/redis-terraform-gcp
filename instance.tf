@@ -1,4 +1,6 @@
 resource "google_compute_instance" "app" {
+  count = var.app_enabled ? 1 : 0
+
   name         = "${var.yourname}-${var.env}-app"
   machine_type = "n2-highcpu-16" // for memtier/TLS we need a highcpu machine
   //machine_type = var.machine_type
@@ -96,12 +98,14 @@ resource "google_compute_instance" "nodeX" {
 }
 
 resource "google_dns_record_set" "app" {
+  count = var.app_enabled ? 1 : 0
+
   name = "app.${var.yourname}.${var.dns_zone_dns_name}."
   type = "A"
   ttl  = 300
   managed_zone = var.dns_managed_zone
 
-  rrdatas = [google_compute_instance.app.network_interface.0.access_config.0.nat_ip]
+  rrdatas = [google_compute_instance.app.0.network_interface.0.access_config.0.nat_ip]
 }
 resource "google_dns_record_set" "node1" {
   name = "node1.${var.yourname}.${var.dns_zone_dns_name}."

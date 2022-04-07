@@ -13,7 +13,7 @@ variable "credentials" {
 // other optional edits *************************************
 variable "clustersize" {
   # You should use 3 for some more realistic installation
-  default = "2"
+  default = "3"
 }
 
 
@@ -27,10 +27,15 @@ variable "project" {
   default = "central-beach-194106"
 }
 variable "machine_type" {
-  default = "e2-standard-2" // https://gcpinstances.info/?cost_duration=monthly
+  default = "e2-standard-2" // 2 vCPU 8GB
+  // https://gcpinstances.info/?cost_duration=monthly
   // example with minimal 2vcpu 4GB RAM
   // which leaves about 1.4GB for Redis DB
   // machine_type = "custom-2-4096" // https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance
+  // other machines of interest:
+  //
+  // e2-highmem-8   // 8 vCPU 64 GB
+  // n2-highcpu-16  // 16 vCPU 32 GB
 }
 // machine name will be "<yourname>-<env>-node1"
 variable "env" {
@@ -42,6 +47,29 @@ variable "RS_admin" {
 variable "region_name" {
   default = "europe-west1"
 }
+
+// other possible edits ************************************* client machine
+// client machine with memtier is optional
+variable "app_enabled" {
+  default = false
+}
+
+// other possible edits ************************************* Kubernetes KGE
+// GKE K8s is optional so node pool will default to 0 nodes
+variable "gke_clustersize" {
+  default = 0
+}
+// e2-standard-8 will work by default
+// e2-standard-4 (4 vCPU) requires Redis Enterprise REC yaml to be fine tuned
+// as default request is 2 CPU per REC pod, and with other K8s services running on GKE
+// as well as the CRD this will fail on a single node K8s GKE cluster
+variable "gke_machine_type" {
+  default = "e2-standard-8" # 8 vCPU, 32 GB
+}
+
+
+// other possible edits ************************************* networking
+
 // must be a zone that already exist - we will not create it but will add to it
 variable "dns_managed_zone" {
   default = "demo-clusters"
