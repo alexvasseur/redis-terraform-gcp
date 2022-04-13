@@ -1,37 +1,16 @@
-# see https://registry.terraform.io/modules/terraform-google-modules/kubernetes-engine/google/latest
+# The GKE cluster will only be created if gke_enabled = true (default: false)
+#
+# Using the core Terraform construct for simple GKE
+# and not the Google provided alternative at https://registry.terraform.io/modules/terraform-google-modules/kubernetes-engine/google/latest
 #
 # terraform init -upgrade
-
+# might be required if you start using this file for first time from an existing install
 
 data "google_client_config" "default" {}
 
-#provider "kubernetes" {
-#  host                   = "https://${module.gke.endpoint}"
-#  token                  = data.google_client_config.default.access_token
-#  cluster_ca_certificate = base64decode(module.gke.ca_certificate)
-#}
-
-#module "gke" {
-#  source                 = "terraform-google-modules/kubernetes-engine/google"
-#  project_id             = var.project
-#
-#   name                   = "${var.yourname}-${var.env}-gke"
-#   regional               = true
-#   region                 = var.region_name
-#   network                = google_compute_network.vpc.name
-#   subnetwork             = google_compute_subnetwork.public_subnet.name
-#   ip_range_pods          = "gke-pods"
-#   ip_range_services      = "gke-services"
-#   create_service_account = false
-#   service_account        = "avasseur@central-beach-194106.iam.gserviceaccount.com"
-#   #skip_provisioners      = var.skip_provisioners
-
-#   # skip default node pool so keep it at minimum and remove (per docs)
-#   remove_default_node_pool = true
-#   initial_node_count       = 1
-# }
-
 resource "google_container_cluster" "gke-cluster" {
+  count = var.gke_enabled ? 1 : 0
+
   name                   = "${var.yourname}-${var.env}-gke"
   location               = "${var.region_name}-b" # single zone cluster
   network                = google_compute_network.vpc.name
@@ -50,14 +29,16 @@ resource "google_container_cluster" "gke-cluster" {
 
 
 resource "google_container_node_pool" "np" {
+  count = var.gke_enabled ? 1 : 0
+
   name       = "redis-node-pool"
-  cluster    = google_container_cluster.gke-cluster.name
+  cluster    = google_container_cluster.gke-cluster.0.name
   node_count = var.gke_clustersize
   node_config {
     machine_type = var.gke_machine_type
   }
 }
 
-output "kubectl" {
-  value = "gcloud container clusters get-credentials ${google_container_cluster.gke-cluster.name}"
+output "how_to_kubectl" {
+  value = var.gke_enabled ? "gcloud container clusters get-credentials ${google_container_cluster.gke-cluster.0.name}" : ""
 }

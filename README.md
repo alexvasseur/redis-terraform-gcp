@@ -1,4 +1,4 @@
-# Redis Enterprise - Terraforming on GCP
+# Redis Enterprise - Terraforming on GCP and/or GKE
 
 ## About
 
@@ -6,7 +6,7 @@
     src="https://redislabs.com/wp-content/themes/wpx/assets/images/logo-redis.svg"
     alt="Read more about Redis Enterprise" />
 - Docs https://docs.redislabs.com/latest/rs/
-- Provided by Redis Labs - https://redislabs.com/redis-enterprise-software/overview/
+- Provided by Redis - https://redis.com/redis-enterprise-software/overview/
 
 
 ## Assumption
@@ -42,11 +42,12 @@ clustersize=1
 machine_type = "e2-highmem-8" # 8 vCPU, 64 GB
 # defaults to e2-standard-2 (2 vCPU, 8 GB)
 
-
+## defaults to false
 app_enabled = false
 
-
-gke_clustersize = 0
+## defaults to false
+gke_enabled = true
+gke_clustersize = 3
 gke_machine_type = "e2-standard-4"
 # to delete use the cli as terraform destroy seems unreliable
 # gcloud container node-pools delete redis-node-pool --cluster avasseur-dev-gke
@@ -74,6 +75,11 @@ Outputs:
 
 admin_password = "..."
 admin_username = "admin@redis.io"
+
+how_to_ssh        = "gcloud compute ssh avasseur-dev-1"
+how_to_ssh_to_app = "gcloud compute ssh avasseur-dev-app"
+how_to_kubectl           = "gcloud container clusters get-credentials avasseur-dev-gke"
+
 nodes_dns = [
   "node1.<yourname>.demo.redislabs.com.",
   "node2.<yourname>.demo.redislabs.com.",
@@ -93,6 +99,21 @@ rs_ui_ip = "https://35.233.2.255:8443"
 ```
 terraform destroy
 ```
+
+## Important note about the installation process
+
+The Redis Enterprise node VM will be up but most likely the installation script will be running in background for `cluster create` and `cluster join` commands.
+You should not try to setup the cluster manually using the Redis Enterprise web UI - but instead you can login using `gcloud compute ssh ...` and explore as user `ubuntu` for traces of the node installation:
+```
+ubuntu@avasseur-dev-1:~$ ls -al
+total 56
+drwxr-xr-x 2 root   root    4096 Apr 13 22:53 install
+-rw-r--r-- 1 root   root     624 Apr 13 22:53 install.log
+-rw-r--r-- 1 root   root   14532 Apr 13 22:53 install_rs.log
+-rwxr--r-- 1 ubuntu root     129 Apr 13 22:53 node_externaladdr.sh
+-rw-r--r-- 1 root   root       2 Apr 13 22:53 node_index.terraform
+```
+
 
 ## Stoping & restarting nodes
 
@@ -133,6 +154,15 @@ node:2     slave    10.26.2.3    34.76.46.161           avatest-dev-2      0/100
 ## Running Memtier
 
 see `memtier.sh` for a very basic example
+
+but you are best to run with `app_enabled=true` to spawn a client app machine and have memtier already setup for you on the same colocated network & infrastructure.
+
+## Running GKE
+
+With `gke_enabled=true` Terraform will create a GKE cluster and you can configure machines type and node pool machine count.
+
+Currently the Redis Enterprise Kubernetes operator is not installed automatically. Check the product docs.
+
 
 ## Redis Enterprise - Architecture
 

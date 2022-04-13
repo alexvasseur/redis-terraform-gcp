@@ -55,6 +55,10 @@ variable "app_enabled" {
 }
 
 // other possible edits ************************************* Kubernetes KGE
+// GKE K8s is optional
+variable "gke_enabled" {
+  default = false
+}
 // GKE K8s is optional so node pool will default to 0 nodes
 variable "gke_clustersize" {
   default = 0
