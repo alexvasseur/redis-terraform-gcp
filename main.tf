@@ -23,8 +23,8 @@ output "admin_username" {
   value = var.RS_admin
 }
 output "admin_password" {
-  value = random_password.password.result
-  sensitive = true
+  value = nonsensitive(random_password.password.result)
+  #sensitive = true
 }
 output "how_to_ssh" {
   value = "gcloud compute ssh ${google_compute_instance.node1.name}"

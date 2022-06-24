@@ -156,7 +156,9 @@ node:2     slave    10.26.2.3    34.76.46.161           avatest-dev-2      0/100
 
 see `memtier.sh` for a very basic example
 
-but you are best to run with `app_enabled=true` to spawn a client app machine and have memtier already setup for you on the same colocated network & infrastructure.
+It does assume password `pass` port `12000` and has my own DNS domain hardcoded so you may want to change the script for your own need.
+
+You are best to run with `app_enabled=true` to spawn a client app machine and have memtier CLI already setup for you on the same colocated network & infrastructure.
 
 ## Running GKE
 
