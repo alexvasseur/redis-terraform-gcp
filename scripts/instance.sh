@@ -59,7 +59,7 @@ if [ ${node_id} -eq 1 ]; then
     /opt/redislabs/bin/rladmin cluster create name ${cluster_dns} username ${RS_admin} password '${RS_password}' external_addr $node_external_addr flash_enabled 2>&1 >> /home/ubuntu/install.log
 else
     echo "joining cluster " >> /home/ubuntu/install.log
-    /opt/redislabs/bin/rladmin cluster join username ${RS_admin} password '${RS_password}' nodes ${node_1_ip} external_addr $node_external_addr flash_enabled 2>&1 >> /home/ubuntu/install.log
+    /opt/redislabs/bin/rladmin cluster join username ${RS_admin} password '${RS_password}' nodes ${node_1_ip} external_addr $node_external_addr flash_enabled replace_node ${node_id} 2>&1 >> /home/ubuntu/install.log
 fi
 echo "$(date) - DONE creating cluster node" >> /home/ubuntu/install.log
 
@@ -69,7 +69,11 @@ echo "${node_id}" > /home/ubuntu/node_index.terraform
 cat <<EOF > /home/ubuntu/node_externaladdr.sh
 #!/bin/bash
 node_external_addr=\$(curl -s ifconfig.me/ip)
-/opt/redislabs/bin/rladmin node ${node_id} external_addr set \$node_external_addr
+
+# Terraform node_id may not be Redis Enterprise node id
+myip=\$(ifconfig | grep 10.26 | cut -d' ' -f10)
+rs_node_id=\$(/opt/redislabs/bin/rladmin info node all | grep -1 \$myip | grep node | cut -d':' -f2)
+/opt/redislabs/bin/rladmin node \$rs_node_id external_addr set \$node_external_addr
 EOF
 chown ubuntu /home/ubuntu/node_externaladdr.sh
 chmod u+x /home/ubuntu/node_externaladdr.sh

@@ -12,6 +12,7 @@
 ## Assumption
 
 - gcloud ssh working with `~/.ssh/google_compute_engine` private key
+- with public key as `~/.ssh/google_compute_engine.pub`
 - GCP IAM / service account exist, with `Compute Admin` and `DNS Administrator` roles
 - GCP IAM service account exported `json` in current folder
 - terraform
