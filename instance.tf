@@ -14,6 +14,7 @@ resource "google_compute_instance" "app" {
   }
   labels = {
     owner = var.yourname
+    skip_deletion = "yes"
   }
   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/google_compute_engine.pub")}"
@@ -42,6 +43,7 @@ resource "google_compute_instance" "node1" {
   }
   labels = {
     owner = var.yourname
+    skip_deletion = "yes"
   }
   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/google_compute_engine.pub")}"
@@ -77,6 +79,7 @@ resource "google_compute_instance" "nodeX" {
   }
   labels = {
     owner = var.yourname
+    skip_deletion = "yes"
   }
   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/google_compute_engine.pub")}"

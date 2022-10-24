@@ -36,6 +36,10 @@ resource "google_container_node_pool" "np" {
   node_count = var.gke_clustersize
   node_config {
     machine_type = var.gke_machine_type
+    labels = {
+      owner = var.yourname
+      skip_deletion = "yes"
+    }
   }
 }
 
