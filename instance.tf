@@ -19,7 +19,7 @@ resource "google_compute_instance" "app" {
   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/google_compute_engine.pub")}"
     startup-script = templatefile("${path.module}/scripts/app.sh", {
-      cluster_dns_suffix = "${var.yourname}.${var.dns_zone_dns_name}",
+      cluster_dns_suffix = "${var.yourname}-${var.env}.${var.dns_zone_dns_name}",
       nodes  = "${var.clustersize}"
     })
   }
@@ -48,7 +48,7 @@ resource "google_compute_instance" "node1" {
   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/google_compute_engine.pub")}"
     startup-script = templatefile("${path.module}/scripts/instance.sh", {
-      cluster_dns = "cluster.${var.yourname}.${var.dns_zone_dns_name}",
+      cluster_dns = "cluster.${var.yourname}-${var.env}.${var.dns_zone_dns_name}",
       node_id  = 1
       node_1_ip   = ""
       RS_release = var.RS_release
@@ -84,7 +84,7 @@ resource "google_compute_instance" "nodeX" {
   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/google_compute_engine.pub")}"
     startup-script = templatefile("${path.module}/scripts/instance.sh", {
-      cluster_dns = "cluster.${var.yourname}.${var.dns_zone_dns_name}",
+      cluster_dns = "cluster.${var.yourname}-${var.env}.${var.dns_zone_dns_name}",
       node_id  = count.index+1+1
       node_1_ip = google_compute_instance.node1.network_interface.0.network_ip
       RS_release = var.RS_release
@@ -103,7 +103,7 @@ resource "google_compute_instance" "nodeX" {
 resource "google_dns_record_set" "app" {
   count = var.app_enabled ? 1 : 0
 
-  name = "app.${var.yourname}.${var.dns_zone_dns_name}."
+  name = "app.${var.yourname}-${var.env}.${var.dns_zone_dns_name}."
   type = "A"
   ttl  = 300
   managed_zone = var.dns_managed_zone
@@ -111,7 +111,7 @@ resource "google_dns_record_set" "app" {
   rrdatas = [google_compute_instance.app.0.network_interface.0.access_config.0.nat_ip]
 }
 resource "google_dns_record_set" "node1" {
-  name = "node1.${var.yourname}.${var.dns_zone_dns_name}."
+  name = "node1.${var.yourname}-${var.env}.${var.dns_zone_dns_name}."
   type = "A"
   ttl  = 300
   managed_zone = var.dns_managed_zone
@@ -121,7 +121,7 @@ resource "google_dns_record_set" "node1" {
 resource "google_dns_record_set" "nodeX" {
   count = var.clustersize - 1
 
-  name = "node${count.index + 1 + 1}.${var.yourname}.${var.dns_zone_dns_name}."
+  name = "node${count.index + 1 + 1}.${var.yourname}-${var.env}.${var.dns_zone_dns_name}."
   type = "A"
   ttl  = 300
   managed_zone = var.dns_managed_zone
@@ -130,7 +130,7 @@ resource "google_dns_record_set" "nodeX" {
 }
 
 resource "google_dns_record_set" "name_servers" {
-  name = "cluster.${var.yourname}.${var.dns_zone_dns_name}."
+  name = "cluster.${var.yourname}-${var.env}.${var.dns_zone_dns_name}."
   type = "NS"
   ttl  = 60
   managed_zone = var.dns_managed_zone
