@@ -38,8 +38,9 @@ variable "machine_type" {
   // n2-highcpu-16  // 16 vCPU 32 GB
 }
 // machine name will be "<yourname>-<env>-node1"
+// use "default" ie same as default "terraform workspace"
 variable "env" {
-  default = "dev"
+  default = "default"
 }
 variable "RS_admin" {
   default = "admin@redis.io"

@@ -16,8 +16,8 @@ memtier_benchmark --ratio=1:4 --test-time=3600 \
  -d 150 \
  -t 12 -c 10 \
  --key-pattern=P:P \
- --key-maximum=2000 \
+ --key-maximum=20000000 \
  --hide-histogram -x 1000 \
- -a pass \
+ -a adminRL123 \
  --pipeline=1 \
- -s redis-12000.cluster.avasseur-dev.demo.redislabs.com -p 12000
+ -s redis-12000.cluster.avasseur-default.demo.redislabs.com -p 12000

@@ -41,6 +41,13 @@ mkdir -p /home/ubuntu/.local/bin
 ln -s /home/ubuntu/install/redis-stack/bin/redis-benchmark /home/ubuntu/.local/bin/redis-benchmark
 ln -s /home/ubuntu/install/redis-stack/bin/redis-cli /home/ubuntu/.local/bin/redis-cli
 
+## utility scripts from the Git repo ./scripts folder
+apt-get -y install unzip
+wget https://github.com/alexvasseur/redis-terraform-gcp/archive/refs/heads/main.zip
+unzip main.zip
+mv redis-terraform-gcp-main/scripts/ .
+chmod u+x scripts/*.sh
 
+# for "sudo su - ubuntu"
 chown -R ubuntu:ubuntu /home/ubuntu/install
 chown -R ubuntu:ubuntu /home/ubuntu/.local
