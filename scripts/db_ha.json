@@ -1,0 +1,14 @@
+{
+    "name": "ha",
+    "memory_size": 32212254720,
+    "replication": true,
+    "eviction_policy": "noeviction",
+    "sharding": false,
+    "shards_count": 1,
+    "type": "redis",
+    "oss_cluster": false,
+    "proxy_policy": "single",
+    "shards_placement": "dense",
+    "port": 12000,
+    "authentication_redis_pass":"adminRL123"
+  }
