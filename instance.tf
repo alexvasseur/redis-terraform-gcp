@@ -30,6 +30,7 @@ resource "google_compute_instance" "app" {
     }
   }
 }
+
 resource "google_compute_instance" "node1" {
   name         = "${var.yourname}-${var.env}-1"
   machine_type = var.machine_type
@@ -39,6 +40,15 @@ resource "google_compute_instance" "node1" {
     initialize_params {
       image = "ubuntu-minimal-1804-lts"
       size = 30 //GB
+    }
+  }
+  // Redis on Flash with actual infrastructure SSD local disk for NVMe
+  dynamic "scratch_disk" {
+    // if enabled, there will be 2 SSD mounted as RAID-0 array
+    for_each = var.rof_nvme_enabled ? [1,2] : []
+    content {
+        interface = "NVME"
+        //default size is 375 GB or function of instance type
     }
   }
   labels = {

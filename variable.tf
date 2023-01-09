@@ -48,6 +48,11 @@ variable "RS_admin" {
 variable "region_name" {
   default = "europe-west1"
 }
+// Redis on Flash flag to fully create SSD NVMe disk and not only enable Flash in cluster configuration
+variable "rof_nvme_enabled" {
+  default = false
+}
+
 
 // other possible edits ************************************* client machine
 // client machine with memtier is optional
