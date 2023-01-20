@@ -1,0 +1,31 @@
+{
+    "default_db_config": {
+      "name": "crdb",
+      "memory_size": 32212254720,
+      "replication": true,
+      "eviction_policy": "noeviction",
+      "sharding": true,
+      "shards_count": 3,
+      "type": "redis",
+      "oss_cluster": true,
+      "shard_key_regex":[{"regex":".*\\{(?<tag>.*)\\}.*"}, {"regex":"(?<tag>.*)"}],
+      "proxy_policy": "all-master-shards",
+      "shards_placement": "sparse",
+      "port": 12000,
+      "authentication_redis_pass":"adminRL123"
+    },
+    "encryption": true,
+    "instances": [
+      {
+        "cluster": {
+          "url": "https://cluster.avasseur-default.demo.redislabs.com:9443",
+          "credentials": {
+            "username": "admin@redis.io",
+            "password": "OTkduiMyOKcv"
+          }
+          ,"name": "default"
+        }
+      }
+    ],
+    "name": "crdb"
+  }
