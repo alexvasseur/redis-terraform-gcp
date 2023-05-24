@@ -75,7 +75,7 @@ resource "google_compute_instance" "node1" {
 }
 
 resource "google_compute_instance" "nodeX" {
-  count = var.clustersize - 1
+  count = var.clustersize > 0 ? var.clustersize - 1 : 0
 
   name         = "${var.yourname}-${var.env}-${count.index + 1 + 1}" #+1+1 as we have node1 above
   machine_type = var.machine_type
@@ -138,7 +138,7 @@ resource "google_dns_record_set" "node1" {
   rrdatas = [google_compute_instance.node1.network_interface.0.access_config.0.nat_ip]
 }
 resource "google_dns_record_set" "nodeX" {
-  count = var.clustersize - 1
+  count = var.clustersize > 0 ? var.clustersize - 1 : 0
 
   name = "node${count.index + 1 + 1}.${var.yourname}-${var.env}.${var.dns_zone_dns_name}."
   type = "A"
