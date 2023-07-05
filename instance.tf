@@ -8,7 +8,7 @@ resource "google_compute_instance" "app" {
   tags         = ["ssh", "http"]
   boot_disk {
     initialize_params {
-      image = "ubuntu-minimal-1804-lts"
+      image = "ubuntu-minimal-2004-lts"
       size = 30 //GB
     }
   }
@@ -38,7 +38,7 @@ resource "google_compute_instance" "node1" {
   tags         = ["ssh", "http"]
   boot_disk {
     initialize_params {
-      image = "ubuntu-minimal-1804-lts"
+      image = "ubuntu-minimal-2004-lts"
       size = 30 //GB
     }
   }
@@ -83,7 +83,7 @@ resource "google_compute_instance" "nodeX" {
   tags         = ["ssh", "http"]
   boot_disk {
     initialize_params {
-      image = "ubuntu-minimal-1804-lts"
+      image = "ubuntu-minimal-2004-lts"
       size = 30 // GB
     }
   }
