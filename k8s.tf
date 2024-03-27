@@ -34,6 +34,7 @@ resource "google_container_node_pool" "np" {
   name       = "redis-node-pool"
   cluster    = google_container_cluster.gke-cluster.0.name
   node_count = var.gke_clustersize
+  location   = "${var.region_name}-b" # copied from google_container_cluster
   node_config {
     machine_type = var.gke_machine_type
     labels = {
