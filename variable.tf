@@ -49,7 +49,7 @@ variable "RS_admin" {
   default = "admin@redis.io"
 }
 variable "region_name" {
-  default = "europe-west3"
+  default = "europe-west1"
 }
 // Redis on Flash flag to fully create SSD NVMe disk and not only enable Flash in cluster configuration
 variable "rof_nvme_enabled" {
