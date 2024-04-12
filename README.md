@@ -3,7 +3,7 @@
 ## About
 
 <img width=150
-    src="https://redislabs.com/wp-content/themes/wpx/assets/images/logo-redis.svg"
+    src="https://redis.io/wp-content/uploads/2024/04/Logotype.svg"
     alt="Read more about Redis Enterprise" />
 - Docs https://docs.redislabs.com/latest/rs/
 - Provided by Redis - https://redis.com/redis-enterprise-software/overview/
@@ -21,7 +21,7 @@ If using K8s GKE you will need
 - roles `Kubernetes Engine Cluster Admin` and `Service Account Admin`(?) and `Service Account User`
 (this can vary if you use create_service_account for your GKE/nodepool or use the project level user from the credential files)
 
-Last used with: Terraform v1.1.7
+Last used with: Terraform v1.7.5
 
 ## Setup
 
