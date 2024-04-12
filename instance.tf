@@ -4,7 +4,7 @@ resource "google_compute_instance" "app" {
   name         = "${var.yourname}-${var.env}-app"
   machine_type = "n2-highcpu-16" // for memtier/TLS we need a highcpu machine
   //machine_type = var.machine_type
-  zone         = "${var.region_name}-b" //TODO
+  zone         = "${var.region_name}-${var.region_zones[0]}"
   tags         = ["ssh", "http"]
   boot_disk {
     initialize_params {
@@ -34,7 +34,7 @@ resource "google_compute_instance" "app" {
 resource "google_compute_instance" "node1" {
   name         = "${var.yourname}-${var.env}-1"
   machine_type = var.machine_type
-  zone         = "${var.region_name}-b" //TODO
+  zone         = "${var.region_name}-${var.region_zones[0]}"
   tags         = ["ssh", "http"]
   boot_disk {
     initialize_params {
@@ -60,6 +60,7 @@ resource "google_compute_instance" "node1" {
     startup-script = templatefile("${path.module}/scripts/instance.sh", {
       cluster_dns = "cluster.${var.yourname}-${var.env}.${var.dns_zone_dns_name}",
       node_id  = 1
+      zone = "${var.region_name}-${var.region_zones[0]}"
       node_1_ip   = ""
       RS_release = var.RS_release
       RS_admin = var.RS_admin
@@ -79,7 +80,8 @@ resource "google_compute_instance" "nodeX" {
 
   name         = "${var.yourname}-${var.env}-${count.index + 1 + 1}" #+1+1 as we have node1 above
   machine_type = var.machine_type
-  zone         = "${var.region_name}-b" //TODO
+  zone         = "${var.region_name}-${var.region_zones[(count.index+1)%length(var.region_zones)]}"
+
   tags         = ["ssh", "http"]
   boot_disk {
     initialize_params {
@@ -105,6 +107,7 @@ resource "google_compute_instance" "nodeX" {
     startup-script = templatefile("${path.module}/scripts/instance.sh", {
       cluster_dns = "cluster.${var.yourname}-${var.env}.${var.dns_zone_dns_name}",
       node_id  = count.index+1+1
+      zone = "${var.region_name}-${var.region_zones[(count.index+1)%length(var.region_zones)]}"
       node_1_ip = google_compute_instance.node1.network_interface.0.network_ip
       RS_release = var.RS_release
       RS_admin = var.RS_admin

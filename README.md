@@ -35,6 +35,7 @@ credentials="GCP IAM key file.json"
     - configure number of nodes and admin email
     - review/change as needed
     - configure the name of the json credentials file if needed
+    - configure the region (defaults europe-west1) and if needed the region zones (defaults ["b", "c", "d"]) (as defined by GCP for that region)
 
 Here is an example file
 ```
@@ -54,6 +55,7 @@ gke_machine_type = "e2-standard-4"
 # gcloud container node-pools delete redis-node-pool --cluster avasseur-dev-gke
 ```
 
+Using multi-AZ zones, the cluster is made zone aware (aka rack-aware) for HA Redis database to be deployed in different zones.
 
 ## Usage
 
@@ -175,9 +177,6 @@ Currently the Redis Enterprise Kubernetes operator is not installed automaticall
 
 - if you stopped the VM in GCP, Terraform will assume their external IP are void and will clean up the DNS but will not restart the VM
 
-## Todos
-
-- Configure for multi AZ and rack awareness
 
 
 # Other articles

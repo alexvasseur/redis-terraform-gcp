@@ -103,3 +103,7 @@ variable "rs_private_subnet" {
 variable "rs_public_subnet" {
   default = "10.26.2.0/24"
 }
+variable "region_zones" {
+  default = ["b", "c", "d"]
+}
+
