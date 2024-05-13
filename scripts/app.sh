@@ -19,7 +19,7 @@ dpkg-reconfigure --frontend noninteractive tzdata
 mkdir /home/ubuntu/install
 cd /home/ubuntu/install
 apt-get -y install build-essential autoconf automake libpcre3-dev libevent-dev pkg-config zlib1g-dev libssl-dev
-wget -O memtier.tar.gz https://github.com/RedisLabs/memtier_benchmark/archive/refs/tags/1.4.0.tar.gz
+wget -O memtier.tar.gz https://github.com/RedisLabs/memtier_benchmark/archive/refs/tags/2.1.0.tar.gz
 tar xfz memtier.tar.gz
 mv memtier_benchmark-* memtier
 pushd memtier
@@ -34,7 +34,7 @@ echo "${cluster_dns_suffix}" >> install.log
 #TODO /etc/hosts
 
 ## redis-benchmark and redis-cli
-wget -O redis-stack.tar.gz https://redismodules.s3.amazonaws.com/redis-stack/redis-stack-server-6.2.0-v1.bionic.x86_64.tar.gz
+wget -O redis-stack.tar.gz https://packages.redis.io/redis-stack/redis-stack-server-7.2.0-v10.bionic.x86_64.tar.gz
 tar xfz redis-stack.tar.gz
 mv redis-stack-* redis-stack
 mkdir -p /home/ubuntu/.local/bin
