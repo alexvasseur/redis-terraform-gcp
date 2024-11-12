@@ -19,5 +19,6 @@ memtier_benchmark --ratio 4:0 \
  -a adminRL123 \
  --pipeline 40 \
  -s redis-12000.cluster.avasseur-default.demo.redislabs.com -p 12000 \
- -t 12 -c 10 --rate-limiting 2000
+ -t 12 -c 10 \
+ --rate-limiting 2000
 
