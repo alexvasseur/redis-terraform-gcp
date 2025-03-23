@@ -21,7 +21,8 @@ variable "clustersize" {
 
 // other possible edits *************************************
 variable "RS_release" {
-  default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.4/redislabs-7.8.4-18-focal-amd64.tar"
+  default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.4/redislabs-7.8.4-95-jammy-amd64.tar"
+  #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.4/redislabs-7.8.4-18-focal-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.2/redislabs-7.8.2-34-focal-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.4.2/redislabs-7.4.2-126-focal-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.4.2/redislabs-7.4.2-54-focal-amd64.tar"

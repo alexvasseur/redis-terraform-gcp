@@ -8,7 +8,7 @@ resource "google_compute_instance" "app" {
   tags         = ["ssh", "http"]
   boot_disk {
     initialize_params {
-      image = "ubuntu-minimal-2004-lts"
+      image = "ubuntu-minimal-2204-jammy-v20250311" //"ubuntu-minimal-2004-lts"
       size = 30 //GB
     }
   }
@@ -38,7 +38,7 @@ resource "google_compute_instance" "node1" {
   tags         = ["ssh", "http"]
   boot_disk {
     initialize_params {
-      image = "ubuntu-minimal-2004-lts"
+      image = "ubuntu-minimal-2204-jammy-v20250311" //"ubuntu-minimal-2004-lts"
       size = 30 //GB
     }
   }
@@ -60,6 +60,7 @@ resource "google_compute_instance" "node1" {
     startup-script = templatefile("${path.module}/scripts/instance.sh", {
       cluster_dns = "cluster.${var.yourname}-${var.env}.${var.dns_zone_dns_name}",
       node_id  = 1
+      clustersize = "${var.clustersize}"
       zone = "${var.region_name}-${var.region_zones[0]}"
       node_1_ip   = ""
       RS_release = var.RS_release
@@ -85,7 +86,7 @@ resource "google_compute_instance" "nodeX" {
   tags         = ["ssh", "http"]
   boot_disk {
     initialize_params {
-      image = "ubuntu-minimal-2004-lts"
+      image = "ubuntu-minimal-2204-jammy-v20250311" //"ubuntu-minimal-2004-lts"
       size = 30 // GB
     }
   }
@@ -107,6 +108,7 @@ resource "google_compute_instance" "nodeX" {
     startup-script = templatefile("${path.module}/scripts/instance.sh", {
       cluster_dns = "cluster.${var.yourname}-${var.env}.${var.dns_zone_dns_name}",
       node_id  = count.index+1+1
+      clustersize = "${var.clustersize}"
       zone = "${var.region_name}-${var.region_zones[(count.index+1)%length(var.region_zones)]}"
       node_1_ip = google_compute_instance.node1.network_interface.0.network_ip
       RS_release = var.RS_release

@@ -73,8 +73,14 @@ node_external_addr=`curl ifconfig.me/ip`
 echo "Node ${node_id} : $node_external_addr" >> /home/ubuntu/install.log
 if [ ${node_id} -eq 1 ]; then
     echo "create cluster" >> /home/ubuntu/install.log
-    echo "rladmin cluster create name ${cluster_dns} username ${RS_admin} password '${RS_password}' external_addr $node_external_addr flash_enabled rack_aware rack_id '${zone}'" >> /home/ubuntu/install.log
-    /opt/redislabs/bin/rladmin cluster create name ${cluster_dns} username ${RS_admin} password '${RS_password}' external_addr $node_external_addr flash_enabled rack_aware rack_id '${zone}' 2>&1 >> /home/ubuntu/install.log
+    if [ ${clustersize} -eq 1 ]; then
+        echo "rladmin cluster create name ${cluster_dns} username ${RS_admin} password '${RS_password}' external_addr $node_external_addr flash_enabled" >> /home/ubuntu/install.log
+        /opt/redislabs/bin/rladmin cluster create name ${cluster_dns} username ${RS_admin} password '${RS_password}' external_addr $node_external_addr flash_enabled 2>&1 >> /home/ubuntu/install.log
+    else
+        # rack zone awareness
+        echo "rladmin cluster create name ${cluster_dns} username ${RS_admin} password '${RS_password}' external_addr $node_external_addr flash_enabled rack_aware rack_id '${zone}'" >> /home/ubuntu/install.log
+        /opt/redislabs/bin/rladmin cluster create name ${cluster_dns} username ${RS_admin} password '${RS_password}' external_addr $node_external_addr flash_enabled rack_aware rack_id '${zone}' 2>&1 >> /home/ubuntu/install.log
+    fi
 else
     echo "joining cluster " >> /home/ubuntu/install.log
     echo "/opt/redislabs/bin/rladmin cluster join username ${RS_admin} password '${RS_password}' nodes ${node_1_ip} external_addr $node_external_addr flash_enabled replace_node ${node_id} rack_id '${zone}'" >> /home/ubuntu/install.log

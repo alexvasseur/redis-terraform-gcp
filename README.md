@@ -55,7 +55,7 @@ gke_machine_type = "e2-standard-4"
 # gcloud container node-pools delete redis-node-pool --cluster avasseur-dev-gke
 ```
 
-Using multi-AZ zones, the cluster is made zone aware (aka rack-aware) for HA Redis database to be deployed in different zones.
+Using multi-AZ zones, the cluster is made zone aware (aka rack-aware) for HA Redis database to be deployed in different zones, if there is more than 1 cluster node.
 
 ## Usage
 
