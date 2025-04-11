@@ -33,6 +33,11 @@ echo "${nodes}" >> install.log
 echo "${cluster_dns_suffix}" >> install.log
 #TODO /etc/hosts
 
+## on Ubuntu22 we need libssl for redis-server and redis-stack-server to run
+wget http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+rm libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+
 ## redis-benchmark and redis-cli
 wget -O redis-stack.tar.gz https://packages.redis.io/redis-stack/redis-stack-server-7.2.0-v10.bionic.x86_64.tar.gz
 tar xfz redis-stack.tar.gz
