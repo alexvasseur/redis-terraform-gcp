@@ -21,7 +21,13 @@ If using K8s GKE you will need
 - roles `Kubernetes Engine Cluster Admin` and `Service Account Admin`(?) and `Service Account User`
 (this can vary if you use create_service_account for your GKE/nodepool or use the project level user from the credential files)
 
-Last used with: Terraform v1.7.5
+Last used with:
+```
+Terraform v1.9.5
+on darwin_arm64
++ provider registry.terraform.io/hashicorp/google v4.47.0
++ provider registry.terraform.io/hashicorp/random v3.4.3
+```
 
 ## Setup
 
