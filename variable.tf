@@ -67,6 +67,10 @@ variable "app_enabled" {
   default = false
 }
 
+variable "monitor_enabled" {
+  default = false
+}
+
 // other possible edits ************************************* Kubernetes KGE
 // GKE K8s is optional
 variable "gke_enabled" {

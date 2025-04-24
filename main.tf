@@ -7,6 +7,17 @@ output "rs_ui_dns" {
 	value = ["https://node1.${var.yourname}-${var.env}.${var.dns_zone_dns_name}:8443",
           "https://cluster.${var.yourname}-${var.env}.${var.dns_zone_dns_name}:8443"]
 }
+
+output "monitor_grafana" {
+	value = ["http://monitor.${var.yourname}-${var.env}.${var.dns_zone_dns_name}:3000",
+    "user = admin , password = secret", "monitor IP:${google_compute_instance.monitor.0.network_interface.0.access_config.0.nat_ip}"]
+}
+
+output "monitor_prometheus" {
+	value = ["http://monitor.${var.yourname}-${var.env}.${var.dns_zone_dns_name}:9090",
+   "monitor IP:${google_compute_instance.monitor.0.network_interface.0.access_config.0.nat_ip}"]
+}
+
 output "rs_ui_ip" {
 	value = "https://${google_compute_instance.node1.network_interface.0.access_config.0.nat_ip}:8443"
 }

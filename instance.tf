@@ -2,7 +2,7 @@ resource "google_compute_instance" "app" {
   count = var.app_enabled ? 1 : 0
 
   name         = "${var.yourname}-${var.env}-app"
-  machine_type = "n2-highcpu-16" // for memtier/TLS we need a highcpu machine
+  machine_type = "n2-highcpu-32" // for memtier/TLS we need a highcpu machine
   //machine_type = var.machine_type
   zone         = "${var.region_name}-${var.region_zones[0]}"
   tags         = ["ssh", "http"]
@@ -21,6 +21,39 @@ resource "google_compute_instance" "app" {
     startup-script = templatefile("${path.module}/scripts/app.sh", {
       cluster_dns_suffix = "${var.yourname}-${var.env}.${var.dns_zone_dns_name}",
       nodes  = "${var.clustersize}"
+    })
+  }
+  network_interface {
+    subnetwork = google_compute_subnetwork.public_subnet.name
+    access_config {
+      // Ephemeral IP
+    }
+  }
+}
+
+resource "google_compute_instance" "monitor" {
+  count = var.monitor_enabled ? 1 : 0
+
+  name         = "${var.yourname}-${var.env}-monitor"
+  machine_type = "e2-standard-4" // for memtier/TLS we need a highcpu machine
+  //machine_type = var.machine_type
+  zone         = "${var.region_name}-${var.region_zones[0]}"
+  tags         = ["ssh", "http"]
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-minimal-2204-jammy-v20250311" //"ubuntu-minimal-2004-lts"
+      size = 30 //GB
+    }
+  }
+  labels = {
+    owner = var.yourname
+    skip_deletion = "yes"
+  }
+  metadata = {
+    ssh-keys = "ubuntu:${file("~/.ssh/google_compute_engine.pub")}"
+    startup-script = templatefile("${path.module}/scripts/monitor.sh", {
+      cluster_dns_suffix = "${var.yourname}-${var.env}.${var.dns_zone_dns_name}",
+      RS_CLUSTER_DNS     = "cluster.${var.yourname}-${var.env}.${var.dns_zone_dns_name}"
     })
   }
   network_interface {
@@ -134,6 +167,18 @@ resource "google_dns_record_set" "app" {
 
   rrdatas = [google_compute_instance.app.0.network_interface.0.access_config.0.nat_ip]
 }
+
+resource "google_dns_record_set" "monitor" {
+  count = var.monitor_enabled ? 1 : 0
+
+  name = "monitor.${var.yourname}-${var.env}.${var.dns_zone_dns_name}."
+  type = "A"
+  ttl  = 300
+  managed_zone = var.dns_managed_zone
+
+  rrdatas = [google_compute_instance.monitor.0.network_interface.0.access_config.0.nat_ip]
+}
+
 resource "google_dns_record_set" "node1" {
   name = "node1.${var.yourname}-${var.env}.${var.dns_zone_dns_name}."
   type = "A"
