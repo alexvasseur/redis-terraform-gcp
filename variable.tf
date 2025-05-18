@@ -8,7 +8,7 @@ variable "yourname" {
   # Use CLI or interactive input. It is best to setup your own terraform.tfvars
 }
 variable "credentials" {
-  default = "central-beach-194106-fda731676157.json"
+  default = "central-beach-194106-cb1ccb2b259b.json"
 }
 // other optional edits *************************************
 variable "clustersize" {
@@ -21,7 +21,8 @@ variable "clustersize" {
 
 // other possible edits *************************************
 variable "RS_release" {
-  default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.4/redislabs-7.8.4-95-jammy-amd64.tar"
+  default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.6/redislabs-7.8.6-60-jammy-amd64.tar"
+  #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.4/redislabs-7.8.4-95-jammy-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.4/redislabs-7.8.4-18-focal-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.2/redislabs-7.8.2-34-focal-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.4.2/redislabs-7.4.2-126-focal-amd64.tar"
@@ -66,6 +67,12 @@ variable "rof_nvme_enabled" {
 variable "app_enabled" {
   default = false
 }
+
+// other possible edits ************************************* Redis Cloud PRO
+variable "rc_enabled" {
+  default = false
+}
+
 
 // other possible edits ************************************* Kubernetes KGE
 // GKE K8s is optional
