@@ -21,7 +21,8 @@ variable "clustersize" {
 
 // other possible edits *************************************
 variable "RS_release" {
-  default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.6/redislabs-7.8.6-60-jammy-amd64.tar"
+  default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.22.0/redislabs-7.22.0-250-jammy-amd64.tar"
+  #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.6/redislabs-7.8.6-60-jammy-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.4/redislabs-7.8.4-95-jammy-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.4/redislabs-7.8.4-18-focal-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.2/redislabs-7.8.2-34-focal-amd64.tar"
@@ -29,7 +30,7 @@ variable "RS_release" {
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.4.2/redislabs-7.4.2-54-focal-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.2.4/redislabs-7.2.4-92-focal-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/6.4.2/redislabs-6.4.2-81-focal-amd64.tar"
-  #"https://s3.amazonaws.com/redis-enterprise-software-downloads/6.2.18/redislabs-6.2.18-65-bionic-amd64.tar"
+  #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/6.2.18/redislabs-6.2.18-65-bionic-amd64.tar"
 }
 variable "project" {
   default = "central-beach-194106"
