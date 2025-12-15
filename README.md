@@ -9,7 +9,7 @@
 - Provided by Redis - https://redis.com/redis-enterprise-software/overview/
 
 
-## Assumption
+## Setup Prerequisites
 
 - gcloud ssh working with `~/.ssh/google_compute_engine` private key
 - with public key as `~/.ssh/google_compute_engine.pub`
@@ -29,12 +29,15 @@ on darwin_arm64
 + provider registry.terraform.io/hashicorp/random v3.4.3
 ```
 
-## Setup
+## Creating the Redis Enterprise cluster
+
+### Preparation (only once)
 
 - `terraform init`
 - (optional) use a `terraform.tfvars` to override variable like those two important one or those that have no default:
 ```
 yourname="testingthis"
+youremail="xx_yy" # replacing dot and without @redis.com
 credentials="GCP IAM key file.json"
 ```
 - review `variable.tf` to learn what you can override in your `terraform.tfvars`
@@ -46,6 +49,7 @@ credentials="GCP IAM key file.json"
 Here is an example file
 ```
 yourname="..."
+youremail="xx_yy" # replacing dot and without @redis.com
 clustersize=1
 machine_type = "e2-highmem-8" # 8 vCPU, 64 GB
 # defaults to e2-standard-2 (2 vCPU, 8 GB)
@@ -63,7 +67,7 @@ gke_machine_type = "e2-standard-4"
 
 Using multi-AZ zones, the cluster is made zone aware (aka rack-aware) for HA Redis database to be deployed in different zones, if there is more than 1 cluster node.
 
-## Usage
+### Creating a cluster (each time)
 
 ```
 terraform plan
@@ -109,7 +113,58 @@ rs_ui_ip = "https://35.233.2.255:8443"
 terraform destroy
 ```
 
-## Important note about the installation process
+## Running a setup that performs well
+
+### Recommended machines
+
+```
+clustersize=3
+machine_type = "n2-standard-16" # 16 vCPU, 64GB, NVMe compatible
+rof_nvme_enabled = true
+app_enabled = true
+```
+
+### Recommended Redis database
+
+On the 3 nodes above we recommend
+- 60 GB memory limit
+- 9+9 primary+replica shard
+- sparse and proxy on all nodes
+- can use AOF every 1sec
+- can configure Redis Flex RAM/SSD
+
+### Memtier benchmark
+
+```
+# To pre-load the database, you may run the below with
+#    ... --ratio 1:0 ... --pipeline 50 ...
+# else you may observe artificial high ops/s as reads will not return data while pre-load slowly
+
+# Run with 20 millions keys x 1kB = 20 GB (of primary data)
+memtier_benchmark --ratio 1:4 \
+ --test-time 3600 \
+ -d 1000 \
+ --key-pattern P:P \
+ --key-maximum=20000000 \
+ --hide-histogram -x 1000 \
+ --pipeline 1 \
+ -s redis-12000.cluster.avasseur-default.demo.redislabs.com -p 12000 \
+ -a adminRL123 \
+ --cluster-mode \
+ -t 20 -c 10 \
+ --rate-limiting 100
+ 
+# Run same as above without the --rate-limiting
+
+# Run same as above and change pipeline to 50
+
+```
+
+
+## Useful things to know
+
+
+### Important note about the installation process
 
 The Redis Enterprise node VM will be up but most likely the installation script will be running in background for `cluster create` and `cluster join` commands.
 You should not try to setup the cluster manually using the Redis Enterprise web UI - but instead you can login using `gcloud compute ssh ...` and explore as user `ubuntu` for traces of the node installation:
@@ -124,7 +179,7 @@ drwxr-xr-x 2 root   root    4096 Apr 13 22:53 install
 ```
 
 
-## Stoping & restarting nodes
+### Stoping & restarting nodes
 
 If you stop the VM and need to restart them:
 - you should restart the VM with GCP (Terraform will not do that for you)
@@ -134,7 +189,7 @@ Then:
 - in the meantime you can connect to node1 with the external_addr on https port 8443
 
 
-## SSH access to the RS nodes (VM instance) with GCP command line
+### SSH access to the RS nodes (VM instance) with GCP command line
 
 Use `gcloud` with your machine node name that looks like:
 ```
@@ -177,7 +232,7 @@ Currently the Redis Enterprise Kubernetes operator is not installed automaticall
 
 ## Redis Enterprise - Architecture
 
-![Nodes, shards and clusters and Redis databases](https://redislabs.com/wp-content/uploads/2019/06/blog-volkov-20190625-1-v5.png)
+![Nodes, shards and clusters and Redis databases](https://cdn.sanity.io/images/sy1jschh/production/0df42b52d1d1c81e8cfa7af98174a465e5322256-1200x344.jpg?w=3840&q=80&fit=clip&auto=format)
 
 ## Known Issues
 

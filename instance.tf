@@ -2,7 +2,8 @@ resource "google_compute_instance" "app" {
   count = var.app_enabled ? 1 : 0
 
   name         = "${var.yourname}-${var.env}-app"
-  machine_type = "n2-highcpu-16" // for memtier/TLS we need a highcpu machine
+  machine_type = "n2-standard-32" // n2-highcpu-16" // for memtier/TLS we need a highcpu machine
+  // "c3-highmem-44" is also an extreme choice with more network bandwidth
   //machine_type = var.machine_type
   zone         = "${var.region_name}-${var.region_zones[0]}"
   tags         = ["ssh", "http"]
@@ -13,7 +14,7 @@ resource "google_compute_instance" "app" {
     }
   }
   labels = {
-    owner = var.yourname
+    owner = var.youremail
     skip_deletion = "yes"
   }
   metadata = {
@@ -52,7 +53,7 @@ resource "google_compute_instance" "node1" {
     }
   }
   labels = {
-    owner = var.yourname
+    owner = var.youremail
     skip_deletion = "yes"
   }
   metadata = {
@@ -100,7 +101,7 @@ resource "google_compute_instance" "nodeX" {
     }
   }
   labels = {
-    owner = var.yourname
+    owner = var.youremail
     skip_deletion = "yes"
   }
   metadata = {

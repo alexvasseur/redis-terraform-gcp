@@ -1,9 +1,14 @@
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // !! PLEASE CHANGE in a terraform.tfvars
 // yourname="...."
+// youremail="..."
 // credentials="GCP IAM service account key file.json"
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 variable "yourname" {
+  # No default
+  # Use CLI or interactive input. It is best to setup your own terraform.tfvars
+}
+variable "youremail" {
   # No default
   # Use CLI or interactive input. It is best to setup your own terraform.tfvars
 }

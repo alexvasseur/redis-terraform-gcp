@@ -5,7 +5,7 @@ provider "google" {
 ######################################################################
 output "rs_ui_dns" {
 	value = ["https://node1.${var.yourname}-${var.env}.${var.dns_zone_dns_name}:8443",
-          "https://cluster.${var.yourname}-${var.env}.${var.dns_zone_dns_name}:8443"]
+           "https://cluster.${var.yourname}-${var.env}.${var.dns_zone_dns_name}:8443"]
 }
 output "rs_ui_ip" {
 	value = "https://${google_compute_instance.node1.network_interface.0.access_config.0.nat_ip}:8443"
@@ -27,7 +27,11 @@ output "admin_password" {
   #sensitive = true
 }
 output "how_to_ssh" {
-  value = "gcloud compute ssh ${google_compute_instance.node1.name}"
+  value = <<EOT
+gcloud compute ssh ${google_compute_instance.node1.name}
+  for other nodes:
+  gcloud compute ssh --zone europe-west1-c avasseur-default-2 --project $var.project
+EOT
 }
 output "how_to_ssh_to_app" {
   value = var.app_enabled ? "gcloud compute ssh ${google_compute_instance.app.0.name}" : ""
