@@ -45,8 +45,9 @@ resource "google_compute_instance" "node1" {
   }
   // Redis on Flash with actual infrastructure SSD local disk for NVMe
   dynamic "scratch_disk" {
-    // if enabled, there will be 2 SSD mounted as RAID-0 array
-    for_each = var.rof_nvme_enabled ? [1,2] : []
+    // if enabled, there will be 1 to 4 SSD mounted as RAID-0 array
+    // the number varies function of the machine type
+    for_each = range(var.rof_nvme_disks)
     content {
         interface = "NVME"
         //default size is 375 GB or function of instance type
@@ -93,8 +94,9 @@ resource "google_compute_instance" "nodeX" {
   }
   // Redis on Flash with actual infrastructure SSD local disk for NVMe
   dynamic "scratch_disk" {
-    // if enabled, there will be 2 SSD mounted as RAID-0 array
-    for_each = var.rof_nvme_enabled ? [1,2] : []
+    // if enabled, there will be 1 to 4 SSD mounted as RAID-0 array
+    // the number varies function of the machine type
+    for_each = range(var.rof_nvme_disks)
     content {
         interface = "NVME"
         //default size is 375 GB or function of instance type

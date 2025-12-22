@@ -21,7 +21,7 @@
           "url": "https://cluster.avasseur-default.demo.redislabs.com:9443",
           "credentials": {
             "username": "admin@redis.io",
-            "password": "OTkduiMyOKcv"
+            "password": "..."
           }
           ,"name": "default"
         }

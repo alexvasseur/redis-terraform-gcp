@@ -50,7 +50,7 @@ echo "$(date) - INSTALL done" >> /home/ubuntu/install.log
 
 ################
 # FLASH
-if [ $(lsblk | grep nvme0n1 | wc -l) -eq 1 ]; then
+if [ $(lsblk | grep nvme | wc -l) -ge 1 ]; then
     echo "$(date) - SETTING UP Redis on Flash NVMe disks" >> /home/ubuntu/install.log
     /opt/redislabs/sbin/prepare_flash.sh -y
     #mdadm --create /dev/md0 --level=0 --raid-devices=2 /dev/nvme0n1 /dev/nvme0n2

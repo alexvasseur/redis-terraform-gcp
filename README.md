@@ -120,7 +120,8 @@ terraform destroy
 ```
 clustersize=3
 machine_type = "n2-standard-16" # 16 vCPU, 64GB, NVMe compatible
-rof_nvme_enabled = true
+rof_nvme_disks = 1 # can have more than 1 NVMe disk.
+                   # If using c3d lssd instance they come predefined with 1 to 4 NVMe disks so the number must match
 app_enabled = true
 ```
 

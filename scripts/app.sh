@@ -19,7 +19,10 @@ dpkg-reconfigure --frontend noninteractive tzdata
 mkdir /home/ubuntu/install
 cd /home/ubuntu/install
 apt-get -y install build-essential autoconf automake libpcre3-dev libevent-dev pkg-config zlib1g-dev libssl-dev
-wget -O memtier.tar.gz https://github.com/RedisLabs/memtier_benchmark/archive/refs/tags/2.2.0.tar.gz
+## we are getting the main latest
+## if unstable change to
+## wget -O memtier.tar.gz https://github.com/RedisLabs/memtier_benchmark/archive/refs/tags/2.2.0.tar.gz
+wget -O memtier.tar.gz https://github.com/RedisLabs/memtier_benchmark/archive/refs/heads/master.tar.gz
 tar xfz memtier.tar.gz
 mv memtier_benchmark-* memtier
 pushd memtier
