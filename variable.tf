@@ -21,12 +21,10 @@ variable "clustersize" {
   default = "3"
 }
 
-
-
-
 // other possible edits *************************************
 variable "RS_release" {
-  default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/8.0.2/redislabs-8.0.2-17-jammy-amd64.tar"
+  default =  "https://s3.amazonaws.com/redis-enterprise-software-downloads/8.0.10/redislabs-8.0.10-76-jammy-amd64.tar"
+  #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/8.0.2/redislabs-8.0.2-17-jammy-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.22.0/redislabs-7.22.0-250-jammy-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.6/redislabs-7.8.6-60-jammy-amd64.tar"
   #default = "https://s3.amazonaws.com/redis-enterprise-software-downloads/7.8.4/redislabs-7.8.4-95-jammy-amd64.tar"
