@@ -17,9 +17,11 @@ variable "credentials" {
 }
 // other optional edits *************************************
 variable "clustersize" {
-  # You should use 3 for some more realistic installation
+  # You should use 3+ for some more realistic installation
   default = "3"
 }
+
+
 
 // other possible edits *************************************
 variable "RS_release" {
@@ -68,9 +70,10 @@ variable "rof_nvme_disks" {
 
 
 // other possible edits ************************************* client machine
-// client machine with memtier is optional
-variable "app_enabled" {
-  default = false
+// client machine with memtier - default 1, can be 0 or more
+variable "app" {
+  # You can for example use 3+ for some more realistic installation
+  default = "1"
 }
 
 // other possible edits ************************************* Redis Cloud PRO

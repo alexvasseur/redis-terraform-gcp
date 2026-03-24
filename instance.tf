@@ -1,7 +1,7 @@
 resource "google_compute_instance" "app" {
-  count = var.app_enabled ? 1 : 0
+  count = var.app
 
-  name         = "${var.yourname}-${var.env}-app"
+  name         = count.index <= 0 ? "${var.yourname}-${var.env}-app" : "${var.yourname}-${var.env}-app-${count.index}"
   machine_type = "n2-standard-32" // n2-highcpu-16" // for memtier/TLS we need a highcpu machine
   // "c3-highmem-44" is also an extreme choice with more network bandwidth
   //machine_type = var.machine_type
@@ -53,6 +53,9 @@ resource "google_compute_instance" "node1" {
         //default size is 375 GB or function of instance type
     }
   }
+  scheduling {
+    on_host_maintenance = "MIGRATE" // z3 instances are very specific and need this
+  }
   labels = {
     owner = var.youremail
     skip_deletion = "yes"
@@ -102,6 +105,9 @@ resource "google_compute_instance" "nodeX" {
         //default size is 375 GB or function of instance type
     }
   }
+  scheduling {
+    on_host_maintenance = "MIGRATE" // z3 instances are very specific and need this
+  }
   labels = {
     owner = var.youremail
     skip_deletion = "yes"
@@ -128,9 +134,9 @@ resource "google_compute_instance" "nodeX" {
 }
 
 resource "google_dns_record_set" "app" {
-  count = var.app_enabled ? 1 : 0
+  count = var.app
 
-  name = "app.${var.yourname}-${var.env}.${var.dns_zone_dns_name}."
+  name = count.index <= 0 ? "app.${var.yourname}-${var.env}.${var.dns_zone_dns_name}." : "app.${var.yourname}-${var.env}-${count.index}.${var.dns_zone_dns_name}."
   type = "A"
   ttl  = 300
   managed_zone = var.dns_managed_zone

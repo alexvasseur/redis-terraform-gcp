@@ -34,5 +34,5 @@ gcloud compute ssh ${google_compute_instance.node1.name}
 EOT
 }
 output "how_to_ssh_to_app" {
-  value = var.app_enabled ? "gcloud compute ssh ${google_compute_instance.app.0.name}" : ""
+  value = var.app>0 ? "gcloud compute ssh ${google_compute_instance.app.0.name}" : ""
 }
