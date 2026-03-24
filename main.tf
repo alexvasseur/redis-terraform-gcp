@@ -29,8 +29,10 @@ output "admin_password" {
 output "how_to_ssh" {
   value = <<EOT
 gcloud compute ssh ${google_compute_instance.node1.name}
-  for other nodes:
-  gcloud compute ssh --zone europe-west1-c avasseur-default-2 --project $var.project
+## or for other nodes or with other regions:
+export CLOUDSDK_COMPUTE_REGION=${var.region_name}
+export CLOUDSDK_COMPUTE_ZONE="${var.region_name}${var.region_zones[0]}"
+gcloud compute ssh ...
 EOT
 }
 output "how_to_ssh_to_app" {
