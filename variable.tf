@@ -75,6 +75,31 @@ variable "app" {
   # You can for example use 3+ for some more realistic installation
   default = "1"
 }
+variable "app_machine_type" {
+  description = "Machine type for the optional app/memtier VM."
+  type        = string
+  default     = "n2-standard-32"
+}
+variable "memviz_enabled" {
+  description = "Install memviz on the existing app VM."
+  type        = bool
+  default     = false
+}
+variable "memviz_port" {
+  description = "Port used by the memviz service on the app VM."
+  type        = number
+  default     = 3000
+}
+variable "memviz_repo_url" {
+  description = "Git repository URL for memviz."
+  type        = string
+  default     = "https://github.com/itay-ct/memviz.git"
+}
+variable "memviz_repo_ref" {
+  description = "Branch, tag, or ref to checkout for memviz."
+  type        = string
+  default     = "main"
+}
 
 // other possible edits ************************************* Redis Cloud PRO
 variable "rc_enabled" {
@@ -124,4 +149,3 @@ variable "rs_public_subnet" {
 variable "region_zones" {
   default = ["b", "c", "d"]
 }
-

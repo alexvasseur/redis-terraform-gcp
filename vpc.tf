@@ -6,10 +6,10 @@ resource "google_compute_network" "vpc" {
 resource "google_compute_firewall" "allow-internal" {
   name    = "${var.yourname}-${var.env}-fw-allow-internal"
   network = google_compute_network.vpc.name
-  allow {
+allow {
     protocol = "icmp"
   }
-  allow {
+allow {
     protocol = "tcp"
     ports    = ["0-65535"]
   }
@@ -25,12 +25,12 @@ resource "google_compute_firewall" "allow-internal" {
 resource "google_compute_firewall" "allow-http" {
   name    = "${var.yourname}-${var.env}-fw-allow-http"
   network = google_compute_network.vpc.name
-allow {
+  allow {
     protocol = "tcp"
     ports    = ["10000-19999", "8443", "8001", "8070", "8071", "9081", "9443", "8080", "443"]
     # https://docs.redislabs.com/latest/rs/administering/designing-production/networking/port-configurations/?s=port
   }
-allow {
+  allow {
     protocol = "udp"
     ports    = ["53", "5353"]
   }
@@ -47,4 +47,16 @@ resource "google_compute_firewall" "allow-bastion" {
   target_tags = ["ssh"]
   source_ranges = [ "0.0.0.0/0" ]
 
+}
+
+resource "google_compute_firewall" "allow-memviz" {
+  count   = var.memviz_enabled && var.app > 0 ? 1 : 0
+  name    = "${var.yourname}-${var.env}-fw-allow-memviz"
+  network = google_compute_network.vpc.name
+  allow {
+    protocol = "tcp"
+    ports    = [tostring(var.memviz_port)]
+  }
+  target_tags   = ["memviz"]
+  source_ranges = ["0.0.0.0/0"]
 }

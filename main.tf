@@ -38,3 +38,6 @@ EOT
 output "how_to_ssh_to_app" {
   value = var.app>0 ? "gcloud compute ssh ${google_compute_instance.app.0.name}" : ""
 }
+output "memviz_url" {
+  value = var.memviz_enabled && var.app > 0 ? "http://app.${var.yourname}-${var.env}.${var.dns_zone_dns_name}:${var.memviz_port}" : ""
+}

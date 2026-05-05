@@ -224,6 +224,32 @@ It does assume password `pass` port `12000` and has my own DNS domain hardcoded 
 
 You are best to run with `app_enabled=true` to spawn a client app machine and have memtier CLI already setup for you on the same colocated network & infrastructure.
 
+## Optional memviz
+
+`memviz` is off by default and installs on the existing app VM only when enabled.
+
+Example:
+```
+app = 1
+app_machine_type = "e2-standard-2"
+clustersize = 1
+memviz_enabled = true
+```
+
+Advanced overrides:
+```
+memviz_port = 3000
+memviz_repo_url = "https://github.com/itay-ct/memviz.git"
+memviz_repo_ref = "main"
+```
+
+After `terraform apply`, test with:
+```
+systemctl status memviz
+curl http://127.0.0.1:3000/api/meta
+curl http://app.<yourname>-<env>.<dns_zone>:3000/api/meta
+```
+
 ## Running GKE
 
 With `gke_enabled=true` Terraform will create a GKE cluster and you can configure machines type and node pool machine count.
@@ -248,4 +274,3 @@ https://github.com/radeksimko/terraform-examples/tree/master/google-consul
 https://medium.com/slalom-technology/a-complete-gcp-environment-with-terraform-c087190366f0
 
 https://gist.github.com/smford22/54aa5e96701430f1bb0ea6e1a502d23a
-

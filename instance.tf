@@ -2,11 +2,11 @@ resource "google_compute_instance" "app" {
   count = var.app
 
   name         = count.index <= 0 ? "${var.yourname}-${var.env}-app" : "${var.yourname}-${var.env}-app-${count.index}"
-  machine_type = "n2-standard-32" // n2-highcpu-16" // for memtier/TLS we need a highcpu machine
+  machine_type = var.app_machine_type
   // "c3-highmem-44" is also an extreme choice with more network bandwidth
   //machine_type = var.machine_type
   zone         = "${var.region_name}-${var.region_zones[0]}"
-  tags         = ["ssh", "http"]
+  tags         = concat(["ssh", "http"], var.memviz_enabled ? ["memviz"] : [])
   boot_disk {
     initialize_params {
       image = "ubuntu-minimal-2204-jammy-v20250311" //"ubuntu-minimal-2004-lts"
@@ -21,7 +21,11 @@ resource "google_compute_instance" "app" {
     ssh-keys = "ubuntu:${file("~/.ssh/google_compute_engine.pub")}"
     startup-script = templatefile("${path.module}/scripts/app.sh", {
       cluster_dns_suffix = "${var.yourname}-${var.env}.${var.dns_zone_dns_name}",
-      nodes  = "${var.clustersize}"
+      nodes  = "${var.clustersize}",
+      memviz_enabled  = var.memviz_enabled,
+      memviz_port     = var.memviz_port,
+      memviz_repo_url = var.memviz_repo_url,
+      memviz_repo_ref = var.memviz_repo_ref
     })
   }
   network_interface {
@@ -174,7 +178,7 @@ resource "google_dns_record_set" "name_servers" {
 locals {
   n1 = google_dns_record_set.node1.name
   nX = [for xx in google_dns_record_set.nodeX : xx.name]
-} 
+}
 
 resource "random_password" "password" {
   length           = 12
